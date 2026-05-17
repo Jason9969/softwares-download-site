@@ -62,7 +62,7 @@ export const apps: Category[] = [
             { name: "Google Chrome", desc: "网页加载速度快，插件生态丰富，前端开发者首选", recommend: 0, isDownloadable: true, url: "https://www.google.cn/intl/zh-CN/chrome/", favicon: "https://www.google.cn/chrome/static/images/favicons/android-icon-192x192.png" },
             { name: "360安全浏览器", desc: "网址安全检测，广告拦截，适配国内银行政务网站", recommend: 0, isDownloadable: true, url: "https://browser.360.cn/", favicon: "https://p4.ssl.qhimg.com/t110b9a93016f838be146a5b14d.png" },
             { name: "360极速浏览器X", desc: "Chromium内核双核切换，轻量流畅，启动快速", recommend: 0, isDownloadable: true, url: "https://chromex.360.cn/", favicon: "https://bs1.360sres.com/static/26b7ed8e98672fce.ico" },
-            { name: "夸克浏览器", desc: "阿里旗下AI浏览器，集AI搜索、网盘、扫描于一体", recommend: 0, isDownloadable: true, url: "https://www.quark.cn/", favicon: "https://gw.alicdn.com/imgextra/i3/O1CN018r2tKf28YP7ev0fPF_!!6000000007944-2-tps-48-48.png" },
+            { name: "夸克", desc: "阿里旗下AI浏览器，集AI搜索、网盘、扫描于一体", recommend: 0, isDownloadable: true, url: "https://www.quark.cn/", favicon: "https://gw.alicdn.com/imgextra/i3/O1CN018r2tKf28YP7ev0fPF_!!6000000007944-2-tps-48-48.png" },
             { name: "QQ浏览器", desc: "文档在线预览，网页翻译便捷，账号一键登录", recommend: 0, isDownloadable: true, url: "https://browser.qq.com/", favicon: "https://browser.qq.com/favicon.ico" },
             { name: "搜狗浏览器", desc: "双核加速浏览，翻译取词便捷，适合国内日常使用", recommend: 0, isDownloadable: true, url: "https://sogou.browser.qq.com/", favicon: "https://sogou.browser.qq.com/favicon.ico" },
             { name: "Firefox火狐浏览器", desc: "开源注重隐私保护，插件丰富，可定制程度高", recommend: 0, isDownloadable: true, url: "https://www.firefox.com/zh-CN/download/all/", favicon: "https://www.firefox.com/media/img/favicons/firefox/browser/favicon.f093404c0135.ico" }

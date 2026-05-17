@@ -15,7 +15,7 @@
  * - Scoped CSS 样式隔离
  * - 数据与逻辑分离（数据在 ./data.ts）
  */
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { apps, type AppItem, type Category } from './SoftwareNav/data'
 
 /**
@@ -31,9 +31,9 @@ const Apps: Category[] = apps
 const searchQuery = ref('')
 
 /**
- * 选中的分类标签（支持多选）
+ * 选中的分类标签（单选）
  */
-const selectedTags = ref<string[]>(['全部'])
+const selectedTags = ref<string>('全部')
 
 /**
  * 当前主题模式（dark/light）
@@ -56,19 +56,14 @@ const toastMessage = ref('')
 const toastTimeout = ref<number | null>(null)
 
 /**
- * 侧边导航是否可见
- */
-const sideNavVisible = ref(false)
-
-/**
  * 当前高亮的导航项ID
  */
 const currentActiveNav = ref<string | null>(null)
 
 /**
- * 滚动动画定时器ID
+ * 是否禁用滚动高亮更新（点击导航栏后暂时禁用）
  */
-const scrollTimeout = ref<number | null>(null)
+let disableScrollUpdate = false
 
 /**
  * 是否显示返回顶部按钮
@@ -88,6 +83,32 @@ const backToTopRaf = ref<number | null>(null)
 const Tags = computed(() => ['全部', ...Apps.map(cat => cat.category)])
 
 /**
+ * 侧边导航是否可见：只在选中"全部"标签且屏幕宽度足够时显示
+ */
+const sideNavVisible = computed(() => {
+    const isAllSelected = selectedTags.value === '全部'
+    const isWideScreen = window.innerWidth > 1200
+    return isAllSelected && isWideScreen
+})
+
+/**
+ * 监听侧边导航栏的显示状态，当重新显示时重置高亮
+ */
+let previousSideNavVisible = false
+watch(sideNavVisible, (newVal) => {
+    if (newVal && !previousSideNavVisible) {
+        // 当侧边导航栏从隐藏变为显示时，重置高亮状态
+        nextTick(() => {
+            currentActiveNav.value = null
+            // 清除所有活跃状态的样式
+            const navItems = document.querySelectorAll('.side-nav-item')
+            navItems.forEach(item => item.classList.remove('active'))
+        })
+    }
+    previousSideNavVisible = newVal
+})
+
+/**
  * 计算软件总数
  */
 const totalCount = computed(() => {
@@ -100,7 +121,7 @@ const totalCount = computed(() => {
 const visibleCount = computed(() => {
     let count = 0
     Apps.forEach(cat => {
-        const tagMatch = selectedTags.value.includes('全部') || selectedTags.value.includes(cat.category)
+        const tagMatch = selectedTags.value === '全部' || selectedTags.value === cat.category
         if (!tagMatch) return
 
         cat.items.forEach(item => {
@@ -118,7 +139,7 @@ const visibleCount = computed(() => {
  * 判断是否无搜索结果
  */
 const isNoResults = computed(() => {
-    return visibleCount.value === 0 && (searchQuery.value.trim().length > 0 || !selectedTags.value.includes('全部'))
+    return visibleCount.value === 0 && (searchQuery.value.trim().length > 0 || selectedTags.value !== '全部')
 })
 
 // ========== 工具函数 ==========
@@ -153,7 +174,7 @@ const getFirstChar = (name: string): string => {
  * @returns 是否显示
  */
 const isCardVisible = (item: AppItem, categoryName: string): boolean => {
-    const tagMatch = selectedTags.value.includes('全部') || selectedTags.value.includes(categoryName)
+    const tagMatch = selectedTags.value === '全部' || selectedTags.value === categoryName
     if (!tagMatch) return false
 
     const searchText = `${item.name} ${item.desc}`.toLowerCase()
@@ -170,7 +191,7 @@ const isCategoryVisible = (categoryName: string): boolean => {
     const cat = Apps.find(c => c.category === categoryName)
     if (!cat) return false
 
-    const tagMatch = selectedTags.value.includes('全部') || selectedTags.value.includes(categoryName)
+    const tagMatch = selectedTags.value === '全部' || selectedTags.value === categoryName
     if (!tagMatch) return false
 
     return cat.items.some(item => isCardVisible(item, categoryName))
@@ -183,20 +204,7 @@ const isCategoryVisible = (categoryName: string): boolean => {
  * @param tag 点击的标签名称
  */
 const handleTagClick = (tag: string) => {
-    if (tag === '全部') {
-        selectedTags.value = ['全部']
-    } else {
-        selectedTags.value = selectedTags.value.filter(t => t !== '全部')
-        const isActive = selectedTags.value.includes(tag)
-        if (isActive) {
-            selectedTags.value = selectedTags.value.filter(t => t !== tag)
-            if (selectedTags.value.length === 0) {
-                selectedTags.value = ['全部']
-            }
-        } else {
-            selectedTags.value = [...selectedTags.value, tag]
-        }
-    }
+    selectedTags.value = tag
 }
 
 /**
@@ -205,7 +213,7 @@ const handleTagClick = (tag: string) => {
  * @returns 是否选中
  */
 const isTagActive = (tag: string): boolean => {
-    return selectedTags.value.includes(tag)
+    return selectedTags.value === tag
 }
 
 /**
@@ -247,17 +255,13 @@ const showToastMessage = (message: string) => {
 const scrollToCategory = (catId: string) => {
     const element = document.getElementById(catId)
     if (element) {
-        const navItems = document.querySelectorAll('.side-nav-item')
-        navItems.forEach(item => item.classList.remove('active'))
-        const targetItem = document.querySelector(`.side-nav-item[data-target="${catId}"]`)
-        if (targetItem) targetItem.classList.add('active')
-
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-
-        if (scrollTimeout.value) clearTimeout(scrollTimeout.value)
-        scrollTimeout.value = window.setTimeout(() => {
-            scrollTimeout.value = null
-        }, 800)
+        disableScrollUpdate = true
+        currentActiveNav.value = catId
+        element.scrollIntoView({ behavior: 'auto', block: 'start' })
+        // 500ms 后重新启用滚动高亮更新
+        setTimeout(() => {
+            disableScrollUpdate = false
+        }, 500)
     }
 }
 
@@ -265,7 +269,8 @@ const scrollToCategory = (catId: string) => {
  * 更新侧边导航高亮状态（根据滚动位置）
  */
 const updateActiveNav = () => {
-    if (scrollTimeout.value) return
+    if (!sideNavVisible.value) return // 导航栏隐藏时不更新高亮
+    if (disableScrollUpdate) return // 点击导航栏后暂时不更新高亮
 
     const categories = Array.from(document.querySelectorAll('.category')) as HTMLElement[]
     const scrollPosition = window.scrollY + 200
@@ -290,13 +295,6 @@ const updateActiveNav = () => {
     }
 
     currentActiveNav.value = activeCategory
-}
-
-/**
- * 切换侧边导航可见性（根据屏幕宽度）
- */
-const toggleSideNav = () => {
-    sideNavVisible.value = window.innerWidth > 1200
 }
 
 /**
@@ -332,12 +330,7 @@ const handleScroll = () => {
     toggleBackToTop()
 }
 
-/**
- * 处理窗口大小改变事件
- */
-const handleResize = () => {
-    toggleSideNav()
-}
+
 
 // ========== 生命周期钩子 ==========
 
@@ -354,13 +347,11 @@ onMounted(() => {
     }
     document.documentElement.setAttribute('data-theme', theme.value)
 
-    // 初始化侧边导航和返回顶部按钮状态
-    toggleSideNav()
+    // 初始化返回顶部按钮状态
     toggleBackToTop()
 
     // 添加事件监听
     window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleResize)
 })
 
 /**
@@ -369,11 +360,9 @@ onMounted(() => {
 onUnmounted(() => {
     // 移除事件监听
     window.removeEventListener('scroll', handleScroll)
-    window.removeEventListener('resize', handleResize)
 
     // 清理定时器
     if (toastTimeout.value) clearTimeout(toastTimeout.value)
-    if (scrollTimeout.value) clearTimeout(scrollTimeout.value)
     if (backToTopRaf.value) cancelAnimationFrame(backToTopRaf.value)
 })
 
@@ -451,7 +440,7 @@ const toggleTheme = () => {
             <div id="appList">
                 <div v-for="(cat, ci) in Apps" :key="cat.category" class="category"
                     :class="{ hidden: !isCategoryVisible(cat.category) }" :id="'cat-' + ci"
-                    :data-category="cat.category" :style="{ animationDelay: (ci * 0.05) + 's' }">
+                    :data-category="cat.category">
                     <div class="category-header">
                         <div class="category-title">{{ cat.category }}</div>
                     </div>
@@ -498,7 +487,7 @@ const toggleTheme = () => {
                 <div>没有找到匹配的软件</div>
             </div>
 
-            <footer>
+            <footer v-if="selectedTags === '全部'">
                 <p class="footer-info">
                     共收录 <span id="totalCount">{{ visibleCount || totalCount }}</span> 款精选软件与在线工具
                 </p>
@@ -867,9 +856,7 @@ header h1 span::after {
 
 .category {
     margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp 0.5s ease forwards;
-    transition: opacity 0.3s;
+    transition: opacity 0.15s;
 }
 
 .category.hidden {
