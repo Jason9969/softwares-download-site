@@ -472,7 +472,7 @@ const toggleTheme = () => {
                                 </svg>
                             </div>
                             <img v-if="item.favicon" class="app-icon-img" :src="item.favicon" :alt="item.name"
-                                @error="(e) => { (e.target as HTMLImageElement).style.display = 'none' }" />
+                                @error="(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).nextElementSibling?.setAttribute('style', ''); }" />
                             <div v-if="item.favicon" class="app-icon app-icon-fallback" :class="getIconColor(item.name)"
                                 style="display:none">
                                 {{ getFirstChar(item.name) }}
