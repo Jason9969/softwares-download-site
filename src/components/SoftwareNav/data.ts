@@ -44,6 +44,8 @@ export const apps: Category[] = [
         items: [
             { name: "WPS Office", desc: "国产办公套件，支持云端协作，提供个人免费版", recommend: 0, isDownloadable: true, url: "https://www.wps.cn/", favicon: "https://ee.wpscdn.cn/wpscn/favicon.ico" },
             { name: "腾讯会议", desc: "在线视频会议，支持300人同时参会，屏幕共享与录制", recommend: 0, isDownloadable: true, url: "https://meeting.tencent.com/download/", favicon: "https://meeting.tencent.com/favicon.ico" },
+            { name: "腾讯文档", desc: "腾讯旗下在线文档，支持微信直接分享与多人实时协作", recommend: 0, isDownloadable: true, url: "https://docs.qq.com/home#download", favicon: "https://docs.idqqimg.com/tim/docs/desktop/favicon.ico" },
+            { name: "金山文档", desc: "WPS旗下在线协作平台，与WPS深度互通，支持多人同时编辑", recommend: 0, isDownloadable: true, url: "https://www.kdocs.cn/welcome", favicon: "https://volcengine-kdocs-cache.wpscdn.cn/s1/static/images/d42a7af3100b01a49b8c.svg" }
         ]
     },
     {
@@ -65,7 +67,11 @@ export const apps: Category[] = [
             { name: "夸克", desc: "阿里旗下AI浏览器，集AI搜索、网盘、扫描于一体", recommend: 0, isDownloadable: true, url: "https://www.quark.cn/", favicon: "https://gw.alicdn.com/imgextra/i3/O1CN018r2tKf28YP7ev0fPF_!!6000000007944-2-tps-48-48.png" },
             { name: "QQ浏览器", desc: "文档在线预览，网页翻译便捷，账号一键登录", recommend: 0, isDownloadable: true, url: "https://browser.qq.com/", favicon: "https://browser.qq.com/favicon.ico" },
             { name: "搜狗浏览器", desc: "双核加速浏览，翻译取词便捷，适合国内日常使用", recommend: 0, isDownloadable: true, url: "https://sogou.browser.qq.com/", favicon: "https://sogou.browser.qq.com/favicon.ico" },
-            { name: "Firefox火狐浏览器", desc: "开源注重隐私保护，插件丰富，可定制程度高", recommend: 0, isDownloadable: true, url: "https://www.firefox.com/zh-CN/download/all/", favicon: "https://www.firefox.com/media/img/favicons/firefox/browser/favicon.f093404c0135.ico" }
+            { name: "Firefox火狐浏览器", desc: "开源注重隐私保护，插件丰富，可定制程度高", recommend: 0, isDownloadable: true, url: "https://www.firefox.com/zh-CN/download/all/", favicon: "https://www.firefox.com/media/img/favicons/firefox/browser/favicon.f093404c0135.ico" },
+            { name: "UC浏览器", desc: "阿里旗下浏览器，网页加载快，内置UC网盘与智能搜索功能", recommend: 0, isDownloadable: true, url: "https://www.uc.cn/", favicon: "https://image.uc.cn/s/uae/g/61/uc-logo-v2.png" },
+            { name: "联想浏览器", desc: "联想电脑内置浏览器，轻量流畅，适配联想设备", recommend: 0, isDownloadable: true, url: "https://browser.lenovo.com.cn/", favicon: "https://browser.lenovo.com.cn/favicon.ico?v=3" },
+            { name: "星愿浏览器", desc: "基于 Chromium 的国产浏览器，支持鼠标手势、超级拖拽等增强功能，小众但口碑不错", recommend: 0, isDownloadable: true, url: "https://www.twinkstar.com/", favicon: "https://image.twinkstar.cn/20180703icon.png" },
+            { name: "Vivaldi", desc: "Opera联合创始人打造，高度可定制，支持标签分组与笔记功能", recommend: 0, isDownloadable: true, url: "https://vivaldi.com/zh-hans/download/", favicon: "https://vivaldi.com/wp-content/uploads/cropped-favicon-32x32.png" },
         ]
     },
     {
@@ -74,9 +80,12 @@ export const apps: Category[] = [
             { name: "搜狗输入法", desc: "词库量大，皮肤主题多样，智能纠错与云联想", recommend: 0, isDownloadable: true, url: "https://shurufa.sogou.com/windows", favicon: "https://ife.gtimg.com/build/client/fromcc/official-website/assets/favicon_8dbb2ea.ico" },
             { name: "微信输入法", desc: "无广告弹窗，跨设备剪贴板同步，注重隐私保护", recommend: 0, isDownloadable: true, url: "https://z.weixin.qq.com/", favicon: "https://cdn.weread.qq.com/web/wetype/static/media/logo.d637ee9d9641555392dd.png" },
             { name: "讯飞输入法", desc: "语音转文字准确率高，支持多种方言语音输入", recommend: 0, isDownloadable: true, url: "https://srf.xunfei.cn/index.html#/", favicon: "https://srf.xunfei.cn/favicon.ico" },
+            { name: "百度输入法", desc: "百度旗下输入法，支持语音、手手写、拼音等多种输入方式", recommend: 0, isDownloadable: true, url: "https://shurufa.baidu.com/default", favicon: "https://shurufa.baidu.com/default/favicon.ico" },
+            { name: "手心输入法", desc: "纯净无广告的拼音输入法，体积小巧，主打简洁流畅体验", recommend: 0, isDownloadable: true, url: "https://www.xinshuru.com/", favicon: "https://www.xinshuru.com/img/favicon.ico" },
             { name: "搜狗五笔输入法", desc: "搜狗旗下五笔输入方案，支持五笔拼音混输入", recommend: 0, isDownloadable: true, url: "https://wubi.sogou.com/", favicon: "https://wubi.sogou.com/static/i/headlogo.png" },
             { name: "万能五笔输入法", desc: "较早推出的五笔输入法，支持五笔拼音混合输入", recommend: 0, isDownloadable: true, url: "https://www.wnwb.com/index.html", favicon: wnwbIcon },
-            { name: "极品五笔输入法", desc: "国产五笔输入法，支持中文五笔编码输入", recommend: 0, isDownloadable: true, url: "http://www.jpwb.net/", favicon: jpwbIcon }
+            { name: "极品五笔输入法", desc: "国产五笔输入法，支持中文五笔编码输入", recommend: 0, isDownloadable: true, url: "http://www.jpwb.net/", favicon: jpwbIcon },
+            { name: "QQ五笔输入法", desc: "腾讯旗下五笔输入法，支持五笔拼音混合输入", recommend: 0, isDownloadable: true, url: "https://qq.pinyin.cn/wubi/", favicon: "http://dl.qqpy.sogou.com/qq.pinyin.cn/icons/qq.pinyin.cn.ico" },
         ]
     },
     {
@@ -89,11 +98,14 @@ export const apps: Category[] = [
             { name: "QQ音乐", desc: "正版曲库覆盖广，无损音质可选，歌词海报分享", recommend: 0, isDownloadable: true, url: "https://y.qq.com/download/index.html", favicon: "https://y.qq.com/favicon.ico" },
             { name: "酷狗音乐", desc: "曲库齐全，蝰蛇音效增强，内置K歌互动功能", recommend: 0, isDownloadable: true, url: "https://download.kugou.com/", favicon: "https://www.kugou.com/yy/static/images/play/logo.png" },
             { name: "汽水音乐", desc: "算法推荐精准，沉浸式播放体验，与抖音曲库互通", recommend: 0, isDownloadable: true, url: "https://music.douyin.com/qishui", favicon: "https://lf-luna.qishui.com/obj/music-luna-fe/luna/home/1.0.0.263/favicon.png" },
+            { name: "酷我音乐", desc: "无损音质曲库丰富，支持在线听歌与本地下载，车载端体验好", recommend: 0, isDownloadable: true, url: "https://kuwo.cn/down", favicon: "https://www.kuwo.cn/favicon.ico?v=1" },
+            { name: "喜马拉雅", desc: "国内领先的音频分享平台，涵盖有声书、播客、知识课程等丰富内容", recommend: 0, isDownloadable: true, url: "https://www.ximalaya.com/download/", favicon: "https://www.ximalaya.com/favicon.ico" },
             { name: "腾讯视频", desc: "热播剧集同步更新，4K画质支持，弹幕互动", recommend: 0, isDownloadable: true, url: "https://v.qq.com/download.html", favicon: "https://v.qq.com/favicon.ico" },
             { name: "爱奇艺", desc: "独家自制综艺与剧集，院线新片同步，杜比音效", recommend: 0, isDownloadable: true, url: "https://www.iqiyi.com/appstore.html", favicon: "https://www.iqiyi.com/logo.png" },
             { name: "优酷视频", desc: "经典影视片库深厚，综艺节目版权多，多端进度同步", recommend: 0, isDownloadable: true, url: "https://www.youku.com/ku/product/index", favicon: "https://img.alicdn.com/imgextra/i2/O1CN01BeAcgL1ywY0G5nSn8_!!6000000006643-2-tps-195-195.png" },
             { name: "哔哩哔哩", desc: "弹幕视频社区，涵盖动画、知识、科技等多元内容", recommend: 0, isDownloadable: true, url: "https://app.bilibili.com/", favicon: "https://static.hdslb.com/images/favicon.ico" },
             { name: "芒果TV", desc: "湖南广电旗下视频平台，热门综艺与剧集同步更新", recommend: 0, isDownloadable: true, url: "https://www.mgtv.com/app/", favicon: "https://static.hitv.com/icons/icon_144x144.1b7ca7.png" },
+            { name: "剪映", desc: "视频剪辑工具，支持多平台使用", recommend: 0, isDownloadable: true, url: "https://www.capcut.cn/", favicon: "https://lf3-s.vlabstatic.com/obj/vilab-static/ies/ulike/web/resource/fe_official/assets/imgs/lv/favicon.ico" }
         ]
     },
     {
@@ -112,14 +124,7 @@ export const apps: Category[] = [
             { name: "夸克网盘", desc: "在线播放流畅，搭配夸克浏览器使用便捷", recommend: 0, isDownloadable: true, url: "https://pan.quark.cn/list#/list/all", favicon: "https://pan.quark.cn/favicon.ico" }
         ]
     },
-    {
-        category: "远程控制",
-        items: [
-            { name: "向日葵", desc: "支持远程开机，跨平台控制，个人版免费使用", recommend: 0, isDownloadable: true, url: "https://sunlogin.oray.com/download", favicon: "https://sunlogin.oray.com/favicon.ico" },
-            { name: "ToDesk", desc: "连接延迟低，画面清晰流畅，操作门槛低", recommend: 0, isDownloadable: true, url: "https://www.todesk.com/download.html", favicon: "https://todeskcdnspeed.todesk.com/20250619165127637e8d9e2be0fc.png" },
-            { name: "AnyDesk", desc: "安装包小巧，连接速度快，跨国远程连接稳定", recommend: 0, isDownloadable: true, url: "https://anydesk.com.cn/zhs/downloads/windows", favicon: "https://anydesk.com.cn/favicon.ico" }
-        ]
-    },
+
     {
         category: "压缩解压",
         items: [
@@ -127,11 +132,18 @@ export const apps: Category[] = [
             { name: "7-Zip", desc: "开源免费，压缩率表现出色，支持格式种类最多", recommend: 0, isDownloadable: true, url: "https://www.7-zip.org/download.html", favicon: "https://www.7-zip.org/favicon.ico" },
             { name: "WinRAR", desc: "经典老牌压缩工具，RAR格式原生支持，兼容性好", recommend: 0, isDownloadable: true, url: "https://www.rarlab.com/download.htm", favicon: "https://www.rarlab.com/favicon.ico" },
             { name: "Bandizip", desc: "多线程快速解压，自动检测编码，界面清爽无广告", recommend: 0, isDownloadable: true, url: "https://www.bandisoft.com/bandizip/", favicon: "https://www.bandisoft.com/favicon.ico" },
+            { name: "PeaZip", desc: "开源免费的跨平台压缩工具，支持200多种压缩格式，界面清爽", recommend: 0, isDownloadable: true, url: "https://peazip.github.io/index.html", favicon: "https://peazip.github.io/peazip_ico24.png" },
+            { name: "NanaZip", desc: "基于7-Zip的现代分支，适配Windows 11界面风格，开源免费", recommend: 0, isDownloadable: true, url: "https://github.com/M2Team/NanaZip", favicon: "https://nanazip.org/NanaZip.ico" },
         ]
     },
     {
         category: "系统工具",
         items: [
+            { name: "驱动总裁", desc: "一键检测安装硬件驱动，离线驱动包齐全，适配主流品牌机型", recommend: 0, isDownloadable: true, url: "https://www.sysceo.com/software-softwarei-id-258.html", favicon: "https://www.sysceo.com/Public/images/favicon.ico" },
+            { name: "DiskGenius", desc: "国产磁盘分区管理与数据恢复工具，支持分区调整、文件恢复与备份还原", recommend: 0, isDownloadable: true, url: "https://www.diskgenius.cn/download.php", favicon: "https://www.diskgenius.cn/favicon.ico" },
+            { name: "傲梅分区助手", desc: "国产磁盘分区管理工具，支持无损分区调整、系统迁移与磁盘克隆", recommend: 0, isDownloadable: true, url: "https://www.disktool.cn/feature.html", favicon: "https://www.disktool.cn/favicon.ico" },
+            { name: "Glary Disk Cleaner", desc: "磁盘垃圾清理工具，扫描清理临时文件与浏览器缓存，释放磁盘空间", recommend: 0, isDownloadable: true, url: "https://www.glarysoft.com/disk-cleaner/", favicon: "https://www.glarysoft.com/favicon.ico" },
+            { name: "360系统急救箱", desc: "系统修复工具，修复系统错误,系统无法正常使用时的应急修复方案", recommend: 0, isDownloadable: true, url: "https://weishi.360.cn/jijiuxiang/index.html", favicon: "https://p0.ssl.qhimg.com//d/_open360/logo72nb/221_72.png" },
             { name: "Everything", desc: "基于NTFS索引的文件秒搜工具，启动快速，体积小", recommend: 0, isDownloadable: true, url: "https://www.voidtools.com/zh-cn/downloads/", favicon: "https://www.voidtools.com/favicon.ico" },
             { name: "Snipaste", desc: "截图后可贴到屏幕置顶，支持取色与标注，高效直观", recommend: 0, isDownloadable: true, url: "https://zh.snipaste.com/download.html", favicon: "https://zh.snipaste.com/img/logo.svg" },
             { name: "PixPin", desc: "截图、滚动长截图、屏幕录制、OCR文字识别多合一", recommend: 0, isDownloadable: true, url: "https://pixpin.cn/", favicon: "https://pixpin.cn/favicon.ico" },
@@ -157,11 +169,33 @@ export const apps: Category[] = [
     {
         category: "AI工具",
         items: [
+            { name: "讯飞星火", desc: "科大讯飞推出的AI大模型，语音交互能力突出，支持多种行业场景", recommend: 0, isDownloadable: true, url: "https://xinghuo.xfyun.cn/desktop-app-download", favicon: "https://xinghuo.xfyun.cn/spark-icon.ico" },
+            { name: "Kimi", desc: "月之暗面推出的AI助手，擅长长文本处理与深度推理，上下文窗口大", recommend: 0, isDownloadable: false, url: "https://www.kimi.com/", favicon: "https://statics.moonshot.cn/kimi-web-seo/favicon.ico" },
+            { name: "腾讯元宝", desc: "腾讯出品的AI助手，基于混元大模型，支持文档总结、图片理解与日常问答", recommend: 0, isDownloadable: true, url: "https://yuanbao.tencent.com/", favicon: "https://static.yuanbao.tencent.com/m/yuanbao-web/favicon_new@32.png" },
             { name: "豆包", desc: "教案生成，文本润色，多轮对话，日常办公好帮手", recommend: 0, isDownloadable: true, url: "https://www.doubao.com/", favicon: "https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/chat/favicon.png" },
             { name: "千问", desc: "长文档摘要，多语言翻译，图文理解能力突出", recommend: 0, isDownloadable: true, url: "https://www.qianwen.com/", favicon: "https://img.alicdn.com/imgextra/i4/O1CN01uar8u91DHWktnF2fl_!!6000000000191-2-tps-110-110.png" },
             { name: "Xiaomi MIMO", desc: "小米自研大模型，界面简洁易用，支持日常问答", recommend: 0, isDownloadable: false, url: "https://aistudio.xiaomimimo.com/#/c", favicon: "https://aistudio.xiaomimimo.com/favicon.0619b0d2.png" },
             { name: "DeepSeek", desc: "数学推理与逻辑分析能力强，代码生成与深度解析", recommend: 0, isDownloadable: false, url: "https://chat.deepseek.com/", favicon: "https://fe-static.deepseek.com/chat/favicon.svg" },
-            { name: "智谱清言", desc: "多模态理解，知识问答全面，中文场景深度优化", recommend: 0, isDownloadable: false, url: "https://chatglm.cn/main/alltoolsdetail?redirect=/main/alltoolsdetail&lang=zh", favicon: "https://chatglm.cn/favicon.ico" }
+            { name: "智谱清言", desc: "多模态理解，知识问答全面，中文场景深度优化", recommend: 0, isDownloadable: false, url: "https://chatglm.cn/main/alltoolsdetail?redirect=/main/alltoolsdetail&lang=zh", favicon: "https://chatglm.cn/favicon.ico" },
+            { name: "即梦AI", desc: "字节跳动旗下AI创作平台，支持文生图、文生视频等多模态内容生成", recommend: 0, isDownloadable: false, url: "https://jimeng.jianying.com/", favicon: "https://lf3-lv-buz.vlabstatic.com/obj/image-lvweb-buz/common/images/dreamina-v5.ico" },
+            { name: "可灵AI", desc: "快手旗下AI视频生成工具，支持文生视频、图生视频，视频生成质量较高", recommend: 0, isDownloadable: false, url: "https://klingai.com/app", favicon: "https://www.kling.ai/favicon.ico" }
         ]
-    }
+    },
+    {
+        category: "设计工具",
+        items: [
+            { name: "canva", desc: "在线图形设计平台，海量模板覆盖海报、演示文稿、社交媒体图片等场景，拖拽操作易上手", recommend: 0, isDownloadable: true, url: "https://www.canva.cn/", favicon: "https://static.canva.cn/domain-assets/canva/static/images/favicon-1.ico" },
+            { name: "美图秀秀", desc: "国民级图片编辑工具，支持美颜、滤镜、拼图与证件照制作", recommend: 0, isDownloadable: true, url: "https://pc.meitu.com/", favicon: "https://pc.meitudata.com/web-xiuxiu-offical/_next/static/media/favicon.87479806.ico" },
+            { name: "稿定设计", desc: "在线图片编辑平台，海量模板覆盖海报、公众号封面等场景", recommend: 0, isDownloadable: false, url: "https://www.gaoding.com/", favicon: "https://www.gaoding.com/logo.svg" },
+            { name: "创客贴", desc: "在线平面设计工具，拖拽操作，模板丰富，适合零基础用户", recommend: 0, isDownloadable: false, url: "https://www.chuangkit.com/", favicon: "https://www.chuangkit.com/favicon.ico" },
+        ]
+    },
+    {
+        category: "远程控制",
+        items: [
+            { name: "向日葵", desc: "支持远程开机，跨平台控制，个人版免费使用", recommend: 0, isDownloadable: true, url: "https://sunlogin.oray.com/download", favicon: "https://sunlogin.oray.com/favicon.ico" },
+            { name: "ToDesk", desc: "连接延迟低，画面清晰流畅，操作门槛低", recommend: 0, isDownloadable: true, url: "https://www.todesk.com/download.html", favicon: "https://todeskcdnspeed.todesk.com/20250619165127637e8d9e2be0fc.png" },
+            { name: "AnyDesk", desc: "安装包小巧，连接速度快，跨国远程连接稳定", recommend: 0, isDownloadable: true, url: "https://anydesk.com.cn/zhs/downloads/windows", favicon: "https://anydesk.com.cn/favicon.ico" }
+        ]
+    },
 ]

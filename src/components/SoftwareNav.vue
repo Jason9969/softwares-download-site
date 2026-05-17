@@ -61,9 +61,9 @@ const toastTimeout = ref<number | null>(null)
 const currentActiveNav = ref<string | null>(null)
 
 /**
- * 是否禁用滚动高亮更新（点击导航栏后暂时禁用）
+ * 滚动高亮禁用的定时器ID
  */
-let disableScrollUpdate = false
+let scrollDisableTimeout: number | null = null
 
 /**
  * 是否显示返回顶部按钮
@@ -74,6 +74,29 @@ const showBackToTop = ref(false)
  * 返回顶部按钮的requestAnimationFrame ID
  */
 const backToTopRaf = ref<number | null>(null)
+
+/**
+ * 描述文本是否溢出的Map
+ */
+const descOverflowMap = ref<Map<string, boolean>>(new Map())
+
+/**
+ * 检测描述文本是否溢出
+ */
+const checkDescOverflow = () => {
+    nextTick(() => {
+        Apps.forEach(category => {
+            category.items.forEach(item => {
+                const key = `${category.category}-${item.name}`
+                const el = document.querySelector(`[data-desc-key="${key}"]`)
+                if (el) {
+                    const isOverflow = el.scrollHeight > el.clientHeight
+                    descOverflowMap.value.set(key, isOverflow)
+                }
+            })
+        })
+    })
+}
 
 // ========== 计算属性 ==========
 
@@ -98,12 +121,7 @@ let previousSideNavVisible = false
 watch(sideNavVisible, (newVal) => {
     if (newVal && !previousSideNavVisible) {
         // 当侧边导航栏从隐藏变为显示时，重置高亮状态
-        nextTick(() => {
-            currentActiveNav.value = null
-            // 清除所有活跃状态的样式
-            const navItems = document.querySelectorAll('.side-nav-item')
-            navItems.forEach(item => item.classList.remove('active'))
-        })
+        currentActiveNav.value = null
     }
     previousSideNavVisible = newVal
 })
@@ -140,6 +158,20 @@ const visibleCount = computed(() => {
  */
 const isNoResults = computed(() => {
     return visibleCount.value === 0 && (searchQuery.value.trim().length > 0 || selectedTags.value !== '全部')
+})
+
+/**
+ * 监听选中标签变化，重新检测文本溢出
+ */
+watch(selectedTags, () => {
+    checkDescOverflow()
+})
+
+/**
+ * 监听搜索关键词变化，重新检测文本溢出
+ */
+watch(searchQuery, () => {
+    checkDescOverflow()
 })
 
 // ========== 工具函数 ==========
@@ -205,6 +237,20 @@ const isCategoryVisible = (categoryName: string): boolean => {
  */
 const handleTagClick = (tag: string) => {
     selectedTags.value = tag
+
+    // 如果不是"全部"，滚动到对应分类区域
+    if (tag !== '全部') {
+        const index = Apps.findIndex(cat => cat.category === tag)
+        if (index !== -1) {
+            const element = document.getElementById('cat-' + index)
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+        }
+    } else {
+        // 如果是"全部"，滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
 }
 
 /**
@@ -255,13 +301,26 @@ const showToastMessage = (message: string) => {
 const scrollToCategory = (catId: string) => {
     const element = document.getElementById(catId)
     if (element) {
-        disableScrollUpdate = true
+        // 移除导航高亮滚动监听器，防止滚动时高亮被覆盖
+        window.removeEventListener('scroll', handleNavScroll)
+
+        // 清除之前的定时器
+        if (scrollDisableTimeout) {
+            clearTimeout(scrollDisableTimeout)
+            scrollDisableTimeout = null
+        }
+
+        // 设置当前高亮
         currentActiveNav.value = catId
-        element.scrollIntoView({ behavior: 'auto', block: 'start' })
-        // 500ms 后重新启用滚动高亮更新
-        setTimeout(() => {
-            disableScrollUpdate = false
-        }, 500)
+
+        // 滚动到目标位置
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+        // 1000ms 后重新添加导航高亮滚动监听器
+        scrollDisableTimeout = window.setTimeout(() => {
+            window.addEventListener('scroll', handleNavScroll, { passive: true })
+            scrollDisableTimeout = null
+        }, 1000)
     }
 }
 
@@ -270,7 +329,6 @@ const scrollToCategory = (catId: string) => {
  */
 const updateActiveNav = () => {
     if (!sideNavVisible.value) return // 导航栏隐藏时不更新高亮
-    if (disableScrollUpdate) return // 点击导航栏后暂时不更新高亮
 
     const categories = Array.from(document.querySelectorAll('.category')) as HTMLElement[]
     const scrollPosition = window.scrollY + 200
@@ -326,6 +384,14 @@ const clearSearch = () => {
  * 处理页面滚动事件
  */
 const handleScroll = () => {
+    // 只更新返回顶部按钮的可见性，不更新导航高亮
+    toggleBackToTop()
+}
+
+/**
+ * 专门用于更新导航高亮的滚动处理
+ */
+const handleNavScroll = () => {
     updateActiveNav()
     toggleBackToTop()
 }
@@ -351,7 +417,13 @@ onMounted(() => {
     toggleBackToTop()
 
     // 添加事件监听
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('scroll', handleNavScroll, { passive: true })
+
+    // 检测文本溢出
+    checkDescOverflow()
+
+    // 监听窗口大小变化，重新检测
+    window.addEventListener('resize', checkDescOverflow)
 })
 
 /**
@@ -359,11 +431,13 @@ onMounted(() => {
  */
 onUnmounted(() => {
     // 移除事件监听
-    window.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('scroll', handleNavScroll)
+    window.removeEventListener('resize', checkDescOverflow)
 
     // 清理定时器
     if (toastTimeout.value) clearTimeout(toastTimeout.value)
     if (backToTopRaf.value) cancelAnimationFrame(backToTopRaf.value)
+    if (scrollDisableTimeout) clearTimeout(scrollDisableTimeout)
 })
 
 /**
@@ -471,7 +545,14 @@ const toggleTheme = () => {
                             </div>
                             <div class="app-info">
                                 <div class="app-name" :title="item.name">{{ item.name }}</div>
-                                <div class="app-desc">{{ item.desc }}</div>
+                                <div class="app-desc" :data-desc-key="`${cat.category}-${item.name}`"
+                                    :title="descOverflowMap.get(`${cat.category}-${item.name}`) ? item.desc : ''">
+                                    {{ item.desc }}
+                                    <div class="app-desc-tooltip"
+                                        v-show="descOverflowMap.get(`${cat.category}-${item.name}`)">
+                                        {{ item.desc }}
+                                    </div>
+                                </div>
                             </div>
                             <button v-if="item.isDownloadable !== false" class="copy-btn"
                                 @click.prevent.stop="copyLink(item.url, $event.target as HTMLButtonElement)">
@@ -499,8 +580,8 @@ const toggleTheme = () => {
             {{ toastMessage }}
         </div>
 
-        <button class="back-to-top" :class="{ visible: showBackToTop }" @click="scrollToTop" aria-label="返回顶部"
-            ref="backToTopRef">
+        <button v-if="selectedTags === '全部'" class="back-to-top" :class="{ visible: showBackToTop }"
+            @click="scrollToTop" aria-label="返回顶部" ref="backToTopRef">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="18 15 12 9 6 15"></polyline>
@@ -514,6 +595,10 @@ const toggleTheme = () => {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 .software-nav {
@@ -936,6 +1021,9 @@ header h1 span::after {
     transition: all 0.2s ease;
     cursor: pointer;
     position: relative;
+    height: 87px;
+    min-height: 87px;
+    box-sizing: border-box;
 }
 
 .app-card.hidden {
@@ -993,6 +1081,7 @@ header h1 span::after {
     font-size: 16px;
     font-weight: 700;
     color: #fff;
+    margin-top: 2px;
 }
 
 .app-icon-img {
@@ -1005,6 +1094,10 @@ header h1 span::after {
 .app-info {
     min-width: 0;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
 }
 
 .app-name {
@@ -1015,6 +1108,7 @@ header h1 span::after {
     overflow: hidden;
     text-overflow: ellipsis;
     transition: color 0.2s;
+    flex-shrink: 0;
 }
 
 .app-card:hover .app-name {
@@ -1026,6 +1120,62 @@ header h1 span::after {
     color: var(--text-muted);
     margin-bottom: 2px;
     line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    position: relative;
+}
+
+.app-desc-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.5;
+    white-space: normal;
+    word-break: break-word;
+    max-width: 280px;
+    min-width: 150px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    margin-bottom: 8px;
+}
+
+.app-desc-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--border);
+}
+
+.app-desc-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--surface);
+    z-index: 1;
+}
+
+.app-desc:hover .app-desc-tooltip {
+    opacity: 1;
 }
 
 .copy-btn {
