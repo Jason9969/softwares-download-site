@@ -381,14 +381,6 @@ const clearSearch = () => {
 }
 
 /**
- * 处理页面滚动事件
- */
-const handleScroll = () => {
-    // 只更新返回顶部按钮的可见性，不更新导航高亮
-    toggleBackToTop()
-}
-
-/**
  * 专门用于更新导航高亮的滚动处理
  */
 const handleNavScroll = () => {
