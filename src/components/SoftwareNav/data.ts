@@ -73,7 +73,7 @@ export const apps: Category[] = [
             { name: "微信输入法", desc: "无广告弹窗，跨设备剪贴板同步，注重隐私保护", recommend: 0, isDownloadable: true, url: "https://z.weixin.qq.com/", favicon: "https://cdn.weread.qq.com/web/wetype/static/media/logo.d637ee9d9641555392dd.png" },
             { name: "讯飞输入法", desc: "语音转文字准确率高，支持多种方言语音输入", recommend: 0, isDownloadable: true, url: "https://srf.xunfei.cn/index.html#/", favicon: "https://srf.xunfei.cn/favicon.ico" },
             { name: "搜狗五笔输入法", desc: "搜狗旗下五笔输入方案，支持五笔拼音混输入", recommend: 0, isDownloadable: true, url: "https://wubi.sogou.com/", favicon: "https://wubi.sogou.com/static/i/headlogo.png" },
-            { name: "万能五笔输入法", desc: "较早推出的五笔输入法，支持五笔拼音混合输入", recommend: 0, isDownloadable: true, url: "http://wubi.com/", favicon: "http://wubi.com/favicon.ico" },
+            { name: "万能五笔输入法", desc: "较早推出的五笔输入法，支持五笔拼音混合输入", recommend: 0, isDownloadable: true, url: "http://www.wnwb.com/index.html", favicon: "http://www.wnwb.com/images/index.ico" },
             { name: "极品五笔输入法", desc: "国产五笔输入法，支持中文五笔编码输入", recommend: 0, isDownloadable: true, url: "http://www.jpwb.net/", favicon: "" }
         ]
     },
