@@ -12,6 +12,7 @@
  */
 import wnwbIcon from '/wnwb.ico'
 import jpwbIcon from '/jpwb.png'
+import vivaldiIcon from '/Vivaldi.webp'
 
 export interface AppItem {
     name: string
@@ -71,7 +72,7 @@ export const apps: Category[] = [
             { name: "UC浏览器", desc: "阿里旗下浏览器，网页加载快，内置UC网盘与智能搜索功能", recommend: 0, isDownloadable: true, url: "https://www.uc.cn/", favicon: "https://image.uc.cn/s/uae/g/61/uc-logo-v2.png" },
             { name: "联想浏览器", desc: "联想电脑内置浏览器，轻量流畅，适配联想设备", recommend: 0, isDownloadable: true, url: "https://browser.lenovo.com.cn/", favicon: "https://browser.lenovo.com.cn/favicon.ico?v=3" },
             { name: "星愿浏览器", desc: "基于 Chromium 的国产浏览器，支持鼠标手势、超级拖拽等增强功能，小众但口碑不错", recommend: 0, isDownloadable: true, url: "https://www.twinkstar.com/", favicon: "https://image.twinkstar.cn/20180703icon.png" },
-            { name: "Vivaldi", desc: "Opera联合创始人打造，高度可定制，支持标签分组与笔记功能", recommend: 0, isDownloadable: true, url: "https://vivaldi.com/zh-hans/download/", favicon: "https://vivaldi.com/wp-content/uploads/cropped-favicon-32x32.png" },
+            { name: "Vivaldi", desc: "Opera联合创始人打造，高度可定制，支持标签分组与笔记功能", recommend: 0, isDownloadable: true, url: "https://vivaldi.com/zh-hans/download/", favicon: vivaldiIcon },
         ]
     },
     {
